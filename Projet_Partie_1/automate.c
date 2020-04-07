@@ -188,7 +188,6 @@ int ** matrice_accessibilite(AUTOMATE A){
 	return matrice;
 }
 
-
 AUTOMATE automate_supprimer_epsilon(AUTOMATE A){
 
   //recopie A en enlevant les epsilon transitions
@@ -258,12 +257,12 @@ AUTOMATE automate_concatenation(AUTOMATE A, AUTOMATE B) {
   int decalage = 0;
 
   // On copie les transitions de A dans C.
-  for( int i = 0 ; i < A.Q ; i++ ) {
-    TRANSITION tmp;
-    tmp = copie_liste(A.T[i], decalage, 1);
-    while( tmp ) {
-      automate_ajouter_transition(C, i, tmp->car, tmp->arr);
-      tmp = tmp->suiv;
+  for( int q = 0 ; q < A.Q ; q++ ) {
+    TRANSITION liste;
+    liste = copie_liste(A.T[q], decalage, 1);
+    while( liste ) {
+      automate_ajouter_transition(C, q, liste->car, liste->arr);
+      liste = liste->suiv;
     }
   }
 
@@ -276,15 +275,15 @@ AUTOMATE automate_concatenation(AUTOMATE A, AUTOMATE B) {
   decalage = A.Q;
 
   // Puis on recopie l'automate de B
-  for( int i = 0 ; i < B.Q ; i++ ) {
-    TRANSITION tmp;
-    tmp = copie_liste(B.T[i], decalage, 1);
-    while( tmp ) {
-      automate_ajouter_transition(C, i+decalage, tmp->car, tmp->arr);
-      tmp = tmp->suiv;
+  for( int q = 0 ; q < B.Q ; q++ ) {
+    TRANSITION liste;
+    liste = copie_liste(B.T[q], decalage, 1);
+    while( liste ) {
+      automate_ajouter_transition(C, q + decalage, liste->car, liste->arr);
+      liste = liste->suiv;
     }
     // Si l'état est final dans B alors il est final dans C
-    if( B.F[i] ) automate_ajouter_final(C, i+decalage);
+    if( B.F[q] ) automate_ajouter_final(C, q + decalage);
   }
 
 	return C;
@@ -301,29 +300,29 @@ AUTOMATE automate_disjonction(AUTOMATE A, AUTOMATE B){
   int decalage = 1;
 
   // On copie les transitions de A dans C.
-  for( int i = 0 ; i < A.Q ; i++ ) {
-    TRANSITION tmp;
-    tmp = copie_liste(A.T[i], decalage, 1);
-    while( tmp ) {
-      automate_ajouter_transition(C, i+decalage, tmp->car, tmp->arr);
-      tmp = tmp->suiv;
+  for( int q = 0 ; q < A.Q ; q++ ) {
+    TRANSITION liste;
+    liste = copie_liste(A.T[q], decalage, 1);
+    while( liste ) {
+      automate_ajouter_transition(C, q + decalage, liste->car, liste->arr);
+      liste = liste->suiv;
     }
-    if( A.F[i] ) automate_ajouter_final(C, i+decalage);
+    if( A.F[q] ) automate_ajouter_final(C, q + decalage);
   }
 
   decalage += A.Q;
   automate_ajouter_transition(C, 0, -1, decalage);
 
   // Puis on recopie l'automate de B
-  for( int i = 0 ; i < B.Q ; i++ ) {
-    TRANSITION tmp;
-    tmp = copie_liste(B.T[i], decalage, 1);
-    while( tmp ) {
-      automate_ajouter_transition(C, i+decalage, tmp->car, tmp->arr);
-      tmp = tmp->suiv;
+  for( int q = 0 ; q < B.Q ; q++ ) {
+    TRANSITION liste;
+    liste = copie_liste(B.T[q], decalage, 1);
+    while( liste ) {
+      automate_ajouter_transition(C, q + decalage, liste->car, liste->arr);
+      liste = liste->suiv;
     }
     // Si l'état est final dans B alors il est final dans C
-    if( B.F[i] ) automate_ajouter_final(C, i+decalage);
+    if( B.F[q] ) automate_ajouter_final(C, q + decalage);
   }
 
 	return C;
@@ -334,14 +333,52 @@ AUTOMATE automate_disjonction(AUTOMATE A, AUTOMATE B){
  */
 
 AUTOMATE automate_etoile(AUTOMATE A){
-	AUTOMATE B = automate_creer(0);
+  // On creer un automate de la taille de A
+  // et on rajoute un etat initial avant
+	AUTOMATE B = automate_creer(A.Q + 1);
+
+  // On met l'etat initial en etat final car on veut
+  // reconnaitre le mot epsilon
+  automate_ajouter_final(B, 0);
+  automate_ajouter_transition(B, 0, -1, 1);
+
+  // On passe l'etat initial
+  int decalage = 1;
+
+  // On parcourt l'automate A
+  for( int q = 0 ; q < A.Q ; q++ ) {
+    TRANSITION liste;
+    liste = copie_liste(A.T[q], decalage, 1);
+    while( liste ) {
+      automate_ajouter_transition(B, q + decalage, liste->car, liste->arr);
+      liste = liste->suiv;
+    }
+
+    // Si l'etat est final on le relis au debut de
+    // l'automate via une epsilon transition
+    if( A.F[q] ) {
+      automate_ajouter_final(B, q + decalage);
+      automate_ajouter_transition(B, q + decalage, -1, 1);
+    }
+  }
 
 	return B;
 }
 
-
 AUTOMATE automate_determiniser(AUTOMATE A){
 	AUTOMATE B = automate_supprimer_epsilon(A);
+
+  int decalage = 0;
+
+  TRANSITION liste;
+  liste = copie_liste(A.T[0], decalage, 1);
+
+  for( int q = 1 ; q < A.Q ; q++ ) {
+    liste = copie_liste(A.T[q], decalage, 1);
+    while( liste ) {
+
+    }
+  }
 
 	return B;
 }

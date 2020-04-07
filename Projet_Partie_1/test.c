@@ -39,10 +39,24 @@ int main(int argc, char * argv[]){
 	AUTOMATE l4 = automate_disjonction(l1, l2);
 	automate_ecrire(l4, "l4.aut");
 
+	AUTOMATE l5 = automate_creer(3);
+	automate_ajouter_transition(l5, 0, 'b', 0);
+	automate_ajouter_transition(l5, 0, 'a', 1);
+	automate_ajouter_transition(l5, 1, 'b', 1);
+	automate_ajouter_transition(l5, 1, 'a', 2);
+	automate_ajouter_transition(l5, 2, 'b', 2);
+	automate_ajouter_final(l5, 2);
+	automate_ecrire(l5, "l5.aut");
+
+	AUTOMATE l6 = automate_etoile(l5);
+	automate_ecrire(l6, "l6.aut");
+
 	automate_liberer_memoire(l1);
 	automate_liberer_memoire(l2);
 	automate_liberer_memoire(l3);
 	automate_liberer_memoire(l4);
+	automate_liberer_memoire(l5);
+	automate_liberer_memoire(l6);
 
 
 	/* q0 -eps> q1 -a> q2(f)
@@ -51,8 +65,8 @@ int main(int argc, char * argv[]){
 	AUTOMATE E = automate_disjonction(B,D);
 	automate_ecrire(E,"test_disjonction.aut");
 
-	// AUTOMATE F = automate_etoile(E);
-	// automate_ecrire(F,"test_etoile.aut");
+	AUTOMATE F = automate_etoile(E);
+	automate_ecrire(F,"test_etoile.aut");
 
 	// AUTOMATE G = automate_supprimer_epsilon(F);
 	// automate_ecrire(G,"test_supprimer_epsilon.aut");
