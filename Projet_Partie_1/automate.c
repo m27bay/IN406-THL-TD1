@@ -368,17 +368,7 @@ AUTOMATE automate_etoile(AUTOMATE A){
 AUTOMATE automate_determiniser(AUTOMATE A){
 	AUTOMATE B = automate_supprimer_epsilon(A);
 
-  int decalage = 0;
 
-  TRANSITION liste;
-  liste = copie_liste(A.T[0], decalage, 1);
-
-  for( int q = 1 ; q < A.Q ; q++ ) {
-    liste = copie_liste(A.T[q], decalage, 1);
-    while( liste ) {
-
-    }
-  }
 
 	return B;
 }
