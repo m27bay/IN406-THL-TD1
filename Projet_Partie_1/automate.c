@@ -365,10 +365,14 @@ AUTOMATE automate_etoile(AUTOMATE A){
 	return B;
 }
 
+static int x_power_n(int x, int n) {
+  return (n == 0) ? 1 : (x*x_power_n(x, n-1));
+}
+
 AUTOMATE automate_determiniser(AUTOMATE A){
 	AUTOMATE B = automate_supprimer_epsilon(A);
 
+  // ?
 
-
-	return B;
+  return B;
 }

@@ -17,7 +17,7 @@ int main(int argc, char * argv[]){
 	AUTOMATE C = automate_concatenation(A,B);
 	automate_ecrire(C,"test_concatenation.aut");
 
-
+  /*
 	// Test supplémentaire pour vérifier la concaténation
 	AUTOMATE l1 = automate_creer(3);
 	automate_ajouter_transition(l1, 0, 'b', 2);
@@ -57,7 +57,7 @@ int main(int argc, char * argv[]){
 	automate_liberer_memoire(l4);
 	automate_liberer_memoire(l5);
 	automate_liberer_memoire(l6);
-
+  */
 
 	/* q0 -eps> q1 -a> q2(f)
 		 q0 -eps> q3 -c> q4(f) */
@@ -68,8 +68,21 @@ int main(int argc, char * argv[]){
 	AUTOMATE F = automate_etoile(E);
 	automate_ecrire(F,"test_etoile.aut");
 
-	// AUTOMATE G = automate_supprimer_epsilon(F);
-	// automate_ecrire(G,"test_supprimer_epsilon.aut");
+	AUTOMATE G = automate_supprimer_epsilon(F);
+	automate_ecrire(G,"test_supprimer_epsilon.aut");
+
+  /*
+  AUTOMATE l7 = automate_creer(3);
+  automate_ajouter_transition(l7, 0, 'a', 0);
+  automate_ajouter_transition(l7, 0, 'b', 0);
+  automate_ajouter_transition(l7, 0, 'c', 0);
+  automate_ajouter_transition(l7, 0, 'a', 1);
+  automate_ajouter_transition(l7, 1, 'b', 2);
+  automate_ajouter_final(l7, 2);
+
+  AUTOMATE l8 = automate_determiniser(l7);
+  automate_ecrire(l8, "l8.aut");
+  */
 
 	// AUTOMATE H = automate_determiniser(F);
 	// automate_ecrire(H,"test_determiniser.aut");
@@ -79,8 +92,8 @@ int main(int argc, char * argv[]){
 	automate_liberer_memoire(C);
 	automate_liberer_memoire(D);
 	automate_liberer_memoire(E);
-	// automate_liberer_memoire(F);
-	// automate_liberer_memoire(G);
+	automate_liberer_memoire(F);
+	automate_liberer_memoire(G);
 	// automate_liberer_memoire(H);
 
 	return 0;
