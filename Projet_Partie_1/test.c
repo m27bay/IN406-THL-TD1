@@ -84,8 +84,8 @@ int main(int argc, char * argv[]){
   automate_ecrire(l8, "l8.aut");
   */
 
-	// AUTOMATE H = automate_determiniser(F);
-	// automate_ecrire(H,"test_determiniser.aut");
+	AUTOMATE H = automate_determiniser(F);
+	automate_ecrire(H,"test_determiniser.aut");
 
 	automate_liberer_memoire(A);
 	automate_liberer_memoire(B);
@@ -94,7 +94,7 @@ int main(int argc, char * argv[]){
 	automate_liberer_memoire(E);
 	automate_liberer_memoire(F);
 	automate_liberer_memoire(G);
-	// automate_liberer_memoire(H);
+	automate_liberer_memoire(H);
 
 	return 0;
 }

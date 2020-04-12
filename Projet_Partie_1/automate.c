@@ -372,7 +372,81 @@ static int x_power_n(int x, int n) {
 AUTOMATE automate_determiniser(AUTOMATE A){
 	AUTOMATE B = automate_supprimer_epsilon(A);
 
-  // ?
+  /* Ne marche pas
+
+  // Initialisation AFD
+  AUTOMATE AFD;
+
+  AFD.sigma = B.sigma;
+  AFD.Q     = 1;
+  AFD.F     = calloc(AFD.Q,sizeof(int));
+  AFD.F[0]  = 0;
+  AFD.T     = calloc(AFD.Q,sizeof(TRANSITION));
+
+  // Pour chaque état dans B
+  for( int q = 0 ; q < B.Q ; q++) {
+
+    // Pour toutes les transitions de l'état q
+    for( TRANSITION T = copie_liste( B.T[q], 0, 0 ) ; T != NULL ; T=T->suiv ) {
+
+      // Pour toutes les lettres dans sigma
+      for( int _char = 0 ; _char < B.sigma ; _char++) {
+
+        // On regarde si il existe une transition pour la lettre en question
+        if( T->car == _char ) {
+
+          // Si il existe une transition, on regarde si il n'en existe pas une autre
+          // pour une état différent
+          for( TRANSITION tmp = T->suiv ; tmp != NULL ; tmp=tmp->suiv ) {
+
+            if( T->car == tmp->car && T->arr != tmp->arr ) {
+
+              // On a donc besoin d'un état de plus
+              AFD.Q+=1;
+
+              // Si l'état est final dans B il l'est aussi dans AFD
+              if( B.F[q] ) {
+                AFD.F = (int *)realloc( AFD.F, AFD.Q * sizeof(int) );
+                AFD.F[ AFD.Q-1 ] = q;
+              }
+
+              // On ajoute la transition
+              AFD.T = (TRANSITION *)realloc( AFD.T, AFD.Q * sizeof(TRANSITION) );
+              TRANSITION trans = malloc( sizeof(TRANSITION) );
+              trans->car = tmp->car;
+              trans->arr = tmp->arr;
+              trans->suiv = NULL;
+              AFD.T[ AFD.Q-1 ] = trans;
+            }
+
+            // On ne change pas la transition
+            else {
+
+              // On a donc besoin d'un état de plus
+              AFD.Q+=1;
+
+              // Si l'état est final dans B il l'est aussi dans AFD
+              if( B.F[q] ) {
+                AFD.F = (int *)realloc( AFD.F, AFD.Q * sizeof(int) );
+                AFD.F[ AFD.Q -1 ] = q;
+              }
+
+              // On ajoute la transition
+              AFD.T = (TRANSITION *)realloc( AFD.T, AFD.Q * sizeof(TRANSITION) );
+              TRANSITION trans = malloc( sizeof(TRANSITION) );
+              trans->car = tmp->car;
+              trans->arr = tmp->arr;
+              trans->suiv = NULL;
+              AFD.T[ AFD.Q-1 ] = trans;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  return AFD;
+  */
 
   return B;
 }
